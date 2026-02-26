@@ -184,7 +184,7 @@ select.input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
 <!-- HOME -->
 <div class="screen active" id="sc-home">
   <nav class="top-nav">
-    <div class="nav-logo" onclick="goTo('home')">
+    <div class="nav-logo" onclick="adminTap()" id="home-logo-tap">
       <div class="nav-logo-icon">🛡️</div>
       <div class="nav-logo-text">Escazú<span>Seguro</span></div>
     </div>
@@ -202,6 +202,23 @@ select.input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
     <div class="ticker-wrap fade-in">
       <span class="ticker-badge">EN VIVO</span>
       <div class="ticker-scroll" id="home-ticker">🔄 Cargando alertas...</div>
+    </div>
+    <p class="section-title">Emergencias</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:11px;" class="fade-in">
+      <a href="tel:911" style="text-decoration:none;">
+        <div style="background:rgba(255,82,82,.12);border:1px solid rgba(255,82,82,.3);border-radius:var(--radius);padding:16px;text-align:center;cursor:pointer;">
+          <div style="font-size:28px;margin-bottom:5px;">🚨</div>
+          <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--accent2);">911</div>
+          <div style="font-size:10px;color:var(--text2);margin-top:2px;">Emergencias</div>
+        </div>
+      </a>
+      <a href="tel:1213" style="text-decoration:none;">
+        <div style="background:rgba(68,138,255,.12);border:1px solid rgba(68,138,255,.3);border-radius:var(--radius);padding:16px;text-align:center;cursor:pointer;">
+          <div style="font-size:28px;margin-bottom:5px;">👮</div>
+          <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--accent4);">1213</div>
+          <div style="font-size:10px;color:var(--text2);margin-top:2px;">Policía Municipal</div>
+        </div>
+      </a>
     </div>
     <p class="section-title">Acciones rápidas</p>
     <div class="quick-grid fade-in">
@@ -245,7 +262,7 @@ select.input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
   </div>
   <nav class="bottom-nav"><div class="nav-items">
     <button class="nav-item active" onclick="goTo('home')"><span class="nav-icon">🏠</span><span>Inicio</span></button>
-    <button class="nav-item" onclick="goTo('alerts')"><span class="nav-icon">🔔</span><span>Alertas</span></button>
+    <button class="nav-item" onclick="goTo('alerts')"><span class="nav-icon" style="position:relative">🔔<span class="nav-badge-count" style="display:none;position:absolute;top:-4px;right:-6px;background:var(--accent2);color:white;font-size:9px;font-weight:800;min-width:16px;height:16px;border-radius:8px;align-items:center;justify-content:center;font-family:'Syne',sans-serif;"></span></span><span>Alertas</span></button>
     <button class="nav-item rep-btn" onclick="goTo('report')"><div class="rep-circle">＋</div></button>
     <button class="nav-item" onclick="goTo('map')"><span class="nav-icon">🗺️</span><span>Mapa</span></button>
     <button class="nav-item" onclick="goTo('stats')"><span class="nav-icon">📊</span><span>Stats</span></button>
@@ -274,7 +291,7 @@ select.input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
   </div>
   <nav class="bottom-nav"><div class="nav-items">
     <button class="nav-item" onclick="goTo('home')"><span class="nav-icon">🏠</span><span>Inicio</span></button>
-    <button class="nav-item active" onclick="goTo('alerts')"><span class="nav-icon">🔔</span><span>Alertas</span></button>
+    <button class="nav-item active" onclick="goTo('alerts')"><span class="nav-icon" style="position:relative">🔔<span class="nav-badge-count" style="display:none;position:absolute;top:-4px;right:-6px;background:var(--accent2);color:white;font-size:9px;font-weight:800;min-width:16px;height:16px;border-radius:8px;align-items:center;justify-content:center;font-family:'Syne',sans-serif;"></span></span><span>Alertas</span></button>
     <button class="nav-item rep-btn" onclick="goTo('report')"><div class="rep-circle">＋</div></button>
     <button class="nav-item" onclick="goTo('map')"><span class="nav-icon">🗺️</span><span>Mapa</span></button>
     <button class="nav-item" onclick="goTo('stats')"><span class="nav-icon">📊</span><span>Stats</span></button>
@@ -288,25 +305,71 @@ select.input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
     <span class="nav-badge" id="map-badge">…</span>
   </nav>
   <div class="page" style="padding-top:12px;">
-    <div class="fade-in" style="margin-bottom:10px;"><div class="page-title">Mapa de Incidentes</div><div class="page-sub">Visualización geográfica en tiempo real</div></div>
-    <div style="background:linear-gradient(135deg,#0a1520,#0d1e2f);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;position:relative;height:calc(100vh - 280px);min-height:280px;margin-bottom:11px;" class="fade-in">
-      <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(0,229,160,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,160,.05) 1px,transparent 1px);background-size:30px 30px;"></div>
-      <svg width="100%" height="100%" viewBox="0 0 400 300" id="map-svg">
-        <polygon points="50,40 180,30 200,120 80,130" fill="#00e5a0" fill-opacity=".05" stroke="#00e5a0" stroke-opacity=".3" stroke-width="1"/>
-        <polygon points="180,30 320,45 310,130 200,120" fill="#448aff" fill-opacity=".05" stroke="#448aff" stroke-opacity=".3" stroke-width="1"/>
-        <polygon points="80,130 200,120 190,220 70,215" fill="#ffa726" fill-opacity=".05" stroke="#ffa726" stroke-opacity=".3" stroke-width="1"/>
-        <polygon points="200,120 310,130 300,210 190,220" fill="#ff5252" fill-opacity=".05" stroke="#ff5252" stroke-opacity=".3" stroke-width="1"/>
-        <path d="M20,80 Q100,75 200,90 Q300,105 390,100" stroke="#1e3050" stroke-width="7" fill="none"/>
-        <path d="M100,20 Q115,100 120,200 Q122,250 125,290" stroke="#1e3050" stroke-width="7" fill="none"/>
-        <path d="M250,15 Q265,90 270,200 Q272,250 275,290" stroke="#1e3050" stroke-width="7" fill="none"/>
-        <path d="M20,170 Q100,165 200,175 Q300,185 390,180" stroke="#1e3050" stroke-width="7" fill="none"/>
-        <text x="110" y="76" fill="#007050" font-size="9.5" text-anchor="middle" font-family="Syne" font-weight="700">San Rafael</text>
-        <text x="248" y="76" fill="#224488" font-size="9.5" text-anchor="middle" font-family="Syne" font-weight="700">Guachipelín</text>
-        <text x="110" y="176" fill="#885500" font-size="9.5" text-anchor="middle" font-family="Syne" font-weight="700">Bello Horizonte</text>
-        <text x="248" y="173" fill="#881122" font-size="9.5" text-anchor="middle" font-family="Syne" font-weight="700">Escazú Centro</text>
+    <div class="fade-in" style="margin-bottom:10px;"><div class="page-title">Mapa de Incidentes</div><div class="page-sub">Zonas coloreadas según nivel de riesgo</div></div>
+    <div style="background:linear-gradient(135deg,#0a1520,#0d1e2f);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;position:relative;margin-bottom:11px;" class="fade-in">
+      <svg width="100%" viewBox="0 0 400 340" id="map-svg" style="display:block;">
+        <!-- Zonas de Escazú -->
+        <!-- San Rafael -->
+        <polygon id="zone-sanrafael" points="60,20 200,20 200,120 60,120" fill="rgba(0,229,160,0.15)" stroke="#00e5a0" stroke-width="1.5" style="cursor:pointer;" onclick="zoneClick('San Rafael')"/>
+        <!-- Guachipelín -->
+        <polygon id="zone-guachi" points="200,20 350,20 350,120 200,120" fill="rgba(68,138,255,0.15)" stroke="#448aff" stroke-width="1.5" style="cursor:pointer;" onclick="zoneClick('Guachipelín')"/>
+        <!-- Trejos Montealegre -->
+        <polygon id="zone-trejos" points="20,120 120,120 120,220 20,220" fill="rgba(0,229,160,0.15)" stroke="#00e5a0" stroke-width="1.5" style="cursor:pointer;" onclick="zoneClick('Trejos Montealegre')"/>
+        <!-- Escazú Centro -->
+        <polygon id="zone-centro" points="120,120 260,120 260,220 120,220" fill="rgba(255,167,38,0.15)" stroke="#ffa726" stroke-width="1.5" style="cursor:pointer;" onclick="zoneClick('Escazú Centro')"/>
+        <!-- San Antonio -->
+        <polygon id="zone-sanantonio" points="260,120 370,120 370,220 260,220" fill="rgba(255,82,82,0.15)" stroke="#ff5252" stroke-width="1.5" style="cursor:pointer;" onclick="zoneClick('San Antonio')"/>
+        <!-- Bello Horizonte -->
+        <polygon id="zone-bello" points="20,220 160,220 160,310 20,310" fill="rgba(255,167,38,0.15)" stroke="#ffa726" stroke-width="1.5" style="cursor:pointer;" onclick="zoneClick('Bello Horizonte')"/>
+        <!-- Santa María -->
+        <polygon id="zone-santa" points="160,220 370,220 370,310 160,310" fill="rgba(0,229,160,0.15)" stroke="#00e5a0" stroke-width="1.5" style="cursor:pointer;" onclick="zoneClick('Santa María')"/>
+
+        <!-- Rutas -->
+        <path d="M20,90 Q200,85 380,90" stroke="#1e3050" stroke-width="6" fill="none"/>
+        <path d="M20,190 Q200,185 380,190" stroke="#1e3050" stroke-width="6" fill="none"/>
+        <path d="M130,20 Q135,165 130,310" stroke="#1e3050" stroke-width="6" fill="none"/>
+        <path d="M260,20 Q265,165 260,310" stroke="#1e3050" stroke-width="6" fill="none"/>
+
+        <!-- Nombres de zonas -->
+        <text x="130" y="65" fill="#e8edf5" font-size="11" text-anchor="middle" font-family="Syne" font-weight="700">San Rafael</text>
+        <text x="275" y="65" fill="#e8edf5" font-size="11" text-anchor="middle" font-family="Syne" font-weight="700">Guachipelín</text>
+        <text x="70" y="175" fill="#e8edf5" font-size="10" text-anchor="middle" font-family="Syne" font-weight="700">Trejos</text>
+        <text x="190" y="175" fill="#e8edf5" font-size="11" text-anchor="middle" font-family="Syne" font-weight="700">Escazú Centro</text>
+        <text x="315" y="175" fill="#e8edf5" font-size="11" text-anchor="middle" font-family="Syne" font-weight="700">San Antonio</text>
+        <text x="90" y="265" fill="#e8edf5" font-size="10" text-anchor="middle" font-family="Syne" font-weight="700">Bello Horizonte</text>
+        <text x="265" y="265" fill="#e8edf5" font-size="11" text-anchor="middle" font-family="Syne" font-weight="700">Santa María</text>
+
+        <!-- Contadores por zona -->
+        <text id="cnt-sanrafael" x="130" y="85" fill="#00e5a0" font-size="10" text-anchor="middle" font-family="Syne" font-weight="600"></text>
+        <text id="cnt-guachi" x="275" y="85" fill="#448aff" font-size="10" text-anchor="middle" font-family="Syne" font-weight="600"></text>
+        <text id="cnt-trejos" x="70" y="195" fill="#00e5a0" font-size="10" text-anchor="middle" font-family="Syne" font-weight="600"></text>
+        <text id="cnt-centro" x="190" y="195" fill="#ffa726" font-size="10" text-anchor="middle" font-family="Syne" font-weight="600"></text>
+        <text id="cnt-sanantonio" x="315" y="195" fill="#ff5252" font-size="10" text-anchor="middle" font-family="Syne" font-weight="600"></text>
+        <text id="cnt-bello" x="90" y="285" fill="#ffa726" font-size="10" text-anchor="middle" font-family="Syne" font-weight="600"></text>
+        <text id="cnt-santa" x="265" y="285" fill="#00e5a0" font-size="10" text-anchor="middle" font-family="Syne" font-weight="600"></text>
+
+        <!-- Marcadores de reportes -->
         <g id="map-markers"></g>
       </svg>
+
+      <!-- Leyenda -->
+      <div style="position:absolute;bottom:8px;left:8px;background:rgba(10,14,20,.92);border:1px solid var(--border);border-radius:9px;padding:8px 10px;backdrop-filter:blur(8px);">
+        <div style="font-size:9px;color:var(--text3);font-weight:700;letter-spacing:1px;margin-bottom:4px;">RIESGO</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:9px;color:var(--text2);margin-bottom:3px;"><div style="width:10px;height:10px;border-radius:3px;background:rgba(255,82,82,0.5);"></div>Alto</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:9px;color:var(--text2);margin-bottom:3px;"><div style="width:10px;height:10px;border-radius:3px;background:rgba(255,167,38,0.5);"></div>Medio</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:9px;color:var(--text2);"><div style="width:10px;height:10px;border-radius:3px;background:rgba(0,229,160,0.5);"></div>Bajo</div>
+      </div>
     </div>
+
+    <!-- Info zona seleccionada -->
+    <div id="zone-info" class="card fade-in" style="display:none;margin-bottom:11px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;" id="zone-name"></div>
+        <span id="zone-badge" class="priority"></span>
+      </div>
+      <div id="zone-reports-list"></div>
+    </div>
+
     <div style="display:flex;gap:8px;">
       <div class="stat-card" style="flex:1;text-align:center;padding:12px 4px;margin-bottom:0;"><div class="stat-val" style="color:var(--accent2);font-size:22px;" id="map-c-sec">—</div><div class="stat-label">Seguridad</div></div>
       <div class="stat-card" style="flex:1;text-align:center;padding:12px 4px;margin-bottom:0;"><div class="stat-val" style="color:var(--accent3);font-size:22px;" id="map-c-inf">—</div><div class="stat-label">Infra</div></div>
@@ -316,7 +379,7 @@ select.input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
   </div>
   <nav class="bottom-nav"><div class="nav-items">
     <button class="nav-item" onclick="goTo('home')"><span class="nav-icon">🏠</span><span>Inicio</span></button>
-    <button class="nav-item" onclick="goTo('alerts')"><span class="nav-icon">🔔</span><span>Alertas</span></button>
+    <button class="nav-item" onclick="goTo('alerts')"><span class="nav-icon" style="position:relative">🔔<span class="nav-badge-count" style="display:none;position:absolute;top:-4px;right:-6px;background:var(--accent2);color:white;font-size:9px;font-weight:800;min-width:16px;height:16px;border-radius:8px;align-items:center;justify-content:center;font-family:'Syne',sans-serif;"></span></span><span>Alertas</span></button>
     <button class="nav-item rep-btn" onclick="goTo('report')"><div class="rep-circle">＋</div></button>
     <button class="nav-item active" onclick="goTo('map')"><span class="nav-icon">🗺️</span><span>Mapa</span></button>
     <button class="nav-item" onclick="goTo('stats')"><span class="nav-icon">📊</span><span>Stats</span></button>
@@ -406,7 +469,7 @@ select.input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
   </div>
   <nav class="bottom-nav"><div class="nav-items">
     <button class="nav-item" onclick="goTo('home')"><span class="nav-icon">🏠</span><span>Inicio</span></button>
-    <button class="nav-item" onclick="goTo('alerts')"><span class="nav-icon">🔔</span><span>Alertas</span></button>
+    <button class="nav-item" onclick="goTo('alerts')"><span class="nav-icon" style="position:relative">🔔<span class="nav-badge-count" style="display:none;position:absolute;top:-4px;right:-6px;background:var(--accent2);color:white;font-size:9px;font-weight:800;min-width:16px;height:16px;border-radius:8px;align-items:center;justify-content:center;font-family:'Syne',sans-serif;"></span></span><span>Alertas</span></button>
     <button class="nav-item rep-btn active" onclick="goTo('report')"><div class="rep-circle">＋</div></button>
     <button class="nav-item" onclick="goTo('map')"><span class="nav-icon">🗺️</span><span>Mapa</span></button>
     <button class="nav-item" onclick="goTo('stats')"><span class="nav-icon">📊</span><span>Stats</span></button>
@@ -442,14 +505,34 @@ select.input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
   </div>
   <nav class="bottom-nav"><div class="nav-items">
     <button class="nav-item" onclick="goTo('home')"><span class="nav-icon">🏠</span><span>Inicio</span></button>
-    <button class="nav-item" onclick="goTo('alerts')"><span class="nav-icon">🔔</span><span>Alertas</span></button>
+    <button class="nav-item" onclick="goTo('alerts')"><span class="nav-icon" style="position:relative">🔔<span class="nav-badge-count" style="display:none;position:absolute;top:-4px;right:-6px;background:var(--accent2);color:white;font-size:9px;font-weight:800;min-width:16px;height:16px;border-radius:8px;align-items:center;justify-content:center;font-family:'Syne',sans-serif;"></span></span><span>Alertas</span></button>
     <button class="nav-item rep-btn" onclick="goTo('report')"><div class="rep-circle">＋</div></button>
     <button class="nav-item" onclick="goTo('map')"><span class="nav-icon">🗺️</span><span>Mapa</span></button>
     <button class="nav-item active" onclick="goTo('stats')"><span class="nav-icon">📊</span><span>Stats</span></button>
   </div></nav>
 </div>
 
-<!-- DETAIL SHEET -->
+<!-- ADMIN PANEL -->
+<div class="screen" id="sc-admin">
+  <nav class="top-nav">
+    <div class="nav-logo"><div class="nav-logo-icon">⚙️</div><div class="nav-logo-text">Panel <span>Admin</span></div></div>
+    <span onclick="cerrarAdmin()" style="font-size:13px;cursor:pointer;color:var(--accent2);font-weight:700;font-family:'Syne',sans-serif;">SALIR</span>
+  </nav>
+  <div class="page">
+    <div class="fade-in" style="margin-bottom:14px;">
+      <div class="page-title">Panel de Administración</div>
+      <div class="page-sub">Gestión de reportes ciudadanos</div>
+    </div>
+    <div class="stat-grid fade-in">
+      <div class="stat-card"><div class="stat-val" style="color:var(--accent2)" id="adm-total">—</div><div class="stat-label">Total</div></div>
+      <div class="stat-card"><div class="stat-val" style="color:var(--accent3)" id="adm-activos">—</div><div class="stat-label">Activos</div></div>
+      <div class="stat-card"><div class="stat-val" style="color:var(--accent4)" id="adm-proceso">—</div><div class="stat-label">En proceso</div></div>
+      <div class="stat-card"><div class="stat-val" style="color:var(--accent)" id="adm-resueltos">—</div><div class="stat-label">Resueltos</div></div>
+    </div>
+    <p class="section-title">Gestionar reportes</p>
+    <div id="admin-list"></div>
+  </div>
+</div>
 <div class="sheet-overlay" id="sheet" onclick="closeSheet(event)">
   <div class="sheet">
     <div class="sheet-handle"></div>
@@ -506,7 +589,13 @@ function initSupabase() {
     console.log('✅ Supabase conectado');
     loadAllData();
     sb.channel('reportes-changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'reportes' }, () => { loadAllData(); })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'reportes' }, (payload) => {
+        if (payload.eventType === 'INSERT' && payload.new) {
+          notificarNuevoReporte(payload.new.titulo, payload.new.categoria, payload.new.distrito);
+          incrementarBadge();
+        }
+        loadAllData();
+      })
       .subscribe();
   } catch(e) {
     console.error('Error Supabase:', e);
@@ -631,24 +720,92 @@ function filterAlerts(btn, cat) {
 }
 
 function renderMapMarkers() {
-  const g = document.getElementById('map-markers');
-  if (!g) return;
   const active = allReports.filter(r=>r.estado!=='resuelto');
   setEl('map-c-sec', active.filter(r=>r.categoria==='seguridad').length);
   setEl('map-c-inf', active.filter(r=>['infraestructura','agua','electricidad'].includes(r.categoria)).length);
   setEl('map-c-env', active.filter(r=>r.categoria==='ambiente').length);
   setEl('map-c-tra', active.filter(r=>r.categoria==='transito').length);
   setEl('map-badge', active.length + ' EN MAPA');
-  g.innerHTML = active.map((r,i) => {
-    const pos = mapCoords[r.distrito] || { x: 150+(i%3)*60, y: 100+Math.floor(i/3)*50 };
+
+  const zones = {
+    'San Rafael':      { id:'sanrafael', color_low:'rgba(0,229,160,0.15)', color_med:'rgba(255,167,38,0.25)', color_high:'rgba(255,82,82,0.35)', stroke_low:'#00e5a0', stroke_med:'#ffa726', stroke_high:'#ff5252', cnt:'cnt-sanrafael' },
+    'Guachipelín':     { id:'guachi',    color_low:'rgba(0,229,160,0.15)', color_med:'rgba(255,167,38,0.25)', color_high:'rgba(255,82,82,0.35)', stroke_low:'#00e5a0', stroke_med:'#ffa726', stroke_high:'#ff5252', cnt:'cnt-guachi' },
+    'Trejos Montealegre':{ id:'trejos',  color_low:'rgba(0,229,160,0.15)', color_med:'rgba(255,167,38,0.25)', color_high:'rgba(255,82,82,0.35)', stroke_low:'#00e5a0', stroke_med:'#ffa726', stroke_high:'#ff5252', cnt:'cnt-trejos' },
+    'Escazú Centro':   { id:'centro',    color_low:'rgba(0,229,160,0.15)', color_med:'rgba(255,167,38,0.25)', color_high:'rgba(255,82,82,0.35)', stroke_low:'#00e5a0', stroke_med:'#ffa726', stroke_high:'#ff5252', cnt:'cnt-centro' },
+    'San Antonio':     { id:'sanantonio',color_low:'rgba(0,229,160,0.15)', color_med:'rgba(255,167,38,0.25)', color_high:'rgba(255,82,82,0.35)', stroke_low:'#00e5a0', stroke_med:'#ffa726', stroke_high:'#ff5252', cnt:'cnt-sanantonio' },
+    'Bello Horizonte': { id:'bello',     color_low:'rgba(0,229,160,0.15)', color_med:'rgba(255,167,38,0.25)', color_high:'rgba(255,82,82,0.35)', stroke_low:'#00e5a0', stroke_med:'#ffa726', stroke_high:'#ff5252', cnt:'cnt-bello' },
+    'Santa María':     { id:'santa',     color_low:'rgba(0,229,160,0.15)', color_med:'rgba(255,167,38,0.25)', color_high:'rgba(255,82,82,0.35)', stroke_low:'#00e5a0', stroke_med:'#ffa726', stroke_high:'#ff5252', cnt:'cnt-santa' },
+  };
+
+  Object.entries(zones).forEach(([name, z]) => {
+    const reps = active.filter(r=>r.distrito===name);
+    const highCount = reps.filter(r=>r.prioridad==='alta').length;
+    const el = document.getElementById('zone-'+z.id);
+    const cnt = document.getElementById(z.cnt);
+    if (!el) return;
+    let level = 'low';
+    if (highCount >= 2 || reps.length >= 4) level = 'high';
+    else if (reps.length >= 2 || highCount >= 1) level = 'med';
+    el.setAttribute('fill', z['color_'+level]);
+    el.setAttribute('stroke', z['stroke_'+level]);
+    if (cnt) cnt.textContent = reps.length > 0 ? reps.length + ' reporte' + (reps.length!==1?'s':'') : '';
+  });
+
+  // Marcadores
+  const mapCoords = {
+    'San Rafael':{x:130,y:70}, 'Guachipelín':{x:275,y:70},
+    'Trejos Montealegre':{x:70,y:170}, 'Escazú Centro':{x:190,y:170},
+    'San Antonio':{x:315,y:170}, 'Bello Horizonte':{x:90,y:265},
+    'Santa María':{x:265,y:265}, 'Otro':{x:200,y:160}
+  };
+  const g = document.getElementById('map-markers');
+  if (!g) return;
+  const placed = {};
+  g.innerHTML = active.map(r => {
+    const base = mapCoords[r.distrito] || {x:200,y:160};
+    placed[r.distrito] = (placed[r.distrito]||0) + 1;
+    const offset = placed[r.distrito] - 1;
+    const x = base.x + (offset % 3) * 16 - 16;
+    const y = base.y + Math.floor(offset/3) * 16;
     const color = catColor[r.categoria] || '#8b5cf6';
     const icon = catIcon[r.categoria] || '📢';
-    return `<g style="cursor:pointer" onclick='openSheet(${JSON.stringify(r)})'>
-      <circle cx="${pos.x}" cy="${pos.y}" r="18" fill="${color}" fill-opacity=".12"/>
-      <circle cx="${pos.x}" cy="${pos.y}" r="10" fill="${color}"/>
-      <text x="${pos.x}" y="${pos.y+4}" text-anchor="middle" font-size="9" fill="white">${icon}</text>
+    return `<g style="cursor:pointer" onclick='openSheet(${JSON.stringify(r).replace(/'/g,"&#39;")})'>
+      <circle cx="${x}" cy="${y}" r="9" fill="${color}" fill-opacity="0.9"/>
+      <text x="${x}" y="${y+4}" text-anchor="middle" font-size="9">${icon}</text>
     </g>`;
   }).join('');
+}
+
+function zoneClick(name) {
+  const reps = allReports.filter(r=>r.distrito===name && r.estado!=='resuelto');
+  const info = document.getElementById('zone-info');
+  const zoneName = document.getElementById('zone-name');
+  const zoneBadge = document.getElementById('zone-badge');
+  const zoneList = document.getElementById('zone-reports-list');
+  if (!info) return;
+  zoneName.textContent = '📍 ' + name;
+  const high = reps.filter(r=>r.prioridad==='alta').length;
+  let nivel, cls;
+  if (high >= 2 || reps.length >= 4) { nivel='RIESGO ALTO'; cls='p-high'; }
+  else if (reps.length >= 2 || high >= 1) { nivel='RIESGO MEDIO'; cls='p-med'; }
+  else { nivel='RIESGO BAJO'; cls='p-low'; }
+  zoneBadge.textContent = nivel;
+  zoneBadge.className = 'priority ' + cls;
+  if (!reps.length) {
+    zoneList.innerHTML = '<div style="color:var(--text3);font-size:12px;text-align:center;padding:10px;">✅ Sin incidentes activos</div>';
+  } else {
+    zoneList.innerHTML = reps.map(r=>`
+      <div style="display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid var(--border);cursor:pointer;" onclick='openSheet(${JSON.stringify(r).replace(/'/g,"&#39;")})'>
+        <div class="alert-icon ${catCls[r.categoria]||'ai-tra'}" style="width:32px;height:32px;font-size:15px;flex-shrink:0;">${catIcon[r.categoria]||'📢'}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escHtml(r.titulo)}</div>
+          <div style="font-size:10px;color:var(--text2);">${timeAgo(r.created_at)}</div>
+        </div>
+        <span class="priority ${r.prioridad==='alta'?'p-high':r.prioridad==='media'?'p-med':'p-low'}">${(r.prioridad||'').toUpperCase()}</span>
+      </div>`).join('');
+  }
+  info.style.display = 'block';
+  info.scrollIntoView({behavior:'smooth', block:'nearest'});
 }
 
 function renderStats() {
@@ -810,6 +967,8 @@ async function submitReport() {
       if (error) throw error;
       ticketId = data[0]?.id || Math.floor(10000+Math.random()*90000);
       allReports.unshift({ ...newReport, id: ticketId, created_at: new Date().toISOString() });
+      notificarNuevoReporte(newReport.titulo, newReport.categoria, newReport.distrito);
+      incrementarBadge();
       updateUI();
     } catch(e) {
       console.error('Error al guardar:', e);
@@ -819,6 +978,8 @@ async function submitReport() {
   } else {
     ticketId = Math.floor(10000+Math.random()*90000);
     allReports.unshift({ ...newReport, id: ticketId, created_at: new Date().toISOString() });
+    notificarNuevoReporte(newReport.titulo, newReport.categoria, newReport.distrito);
+    incrementarBadge();
     updateUI();
     await new Promise(r=>setTimeout(r,800));
   }
@@ -936,7 +1097,123 @@ async function deleteReport(id) {
   }
 }
 
-const screens = { home:'sc-home', alerts:'sc-alerts', map:'sc-map', report:'sc-report', stats:'sc-stats' };
+let newReportsCount = 0;
+
+function incrementarBadge() {
+  newReportsCount++;
+  actualizarBadgeNav();
+}
+
+function actualizarBadgeNav() {
+  document.querySelectorAll('.nav-badge-count').forEach(el => {
+    if (newReportsCount > 0) {
+      el.textContent = newReportsCount;
+      el.style.display = 'flex';
+    } else {
+      el.style.display = 'none';
+    }
+  });
+}
+
+function limpiarBadge() {
+  newReportsCount = 0;
+  actualizarBadgeNav();
+}
+
+function pedirPermisoNotificaciones() {
+  if ('Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission().then(perm => {
+      if (perm === 'granted') showToast('🔔 Notificaciones activadas');
+    });
+  }
+}
+
+function notificarNuevoReporte(titulo, categoria, distrito) {
+  if ('Notification' in window && Notification.permission === 'granted') {
+    const icon = catIcon[categoria] || '📢';
+    new Notification('🛡️ Nuevo reporte en Escazú', {
+      body: `${icon} ${titulo} · ${distrito}`,
+      icon: 'https://api.dicebear.com/7.x/initials/svg?seed=ES&backgroundColor=00e5a0',
+      badge: 'https://api.dicebear.com/7.x/initials/svg?seed=ES&backgroundColor=00e5a0',
+      vibrate: [200, 100, 200],
+      tag: 'nuevo-reporte'
+    });
+  }
+}
+
+
+let adminTaps = 0;
+let adminTimer = null;
+let isAdmin = false;
+
+function adminTap() {
+  adminTaps++;
+  clearTimeout(adminTimer);
+  adminTimer = setTimeout(() => { adminTaps = 0; }, 2000);
+  if (adminTaps >= 5) {
+    adminTaps = 0;
+    const pass = prompt('🔐 Contraseña de administrador:');
+    if (pass === 'Admin2026') {
+      isAdmin = true;
+      goTo('admin');
+      renderAdminList();
+      showToast('✅ Bienvenido, Admin');
+    } else if (pass !== null) {
+      showToast('❌ Contraseña incorrecta', true);
+    }
+  }
+}
+
+function cerrarAdmin() {
+  isAdmin = false;
+  goTo('home');
+}
+
+function renderAdminList() {
+  const list = document.getElementById('admin-list');
+  if (!list) return;
+  setEl('adm-total', allReports.length);
+  setEl('adm-activos', allReports.filter(r=>r.estado==='activo').length);
+  setEl('adm-proceso', allReports.filter(r=>r.estado==='en_proceso').length);
+  setEl('adm-resueltos', allReports.filter(r=>r.estado==='resuelto').length);
+  if (!allReports.length) { list.innerHTML = '<div style="color:var(--text3);text-align:center;padding:20px;">Sin reportes</div>'; return; }
+  list.innerHTML = allReports.map(r => `
+    <div class="card" style="margin-bottom:10px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+        <div style="flex:1;min-width:0;">
+          <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escHtml(r.titulo)}</div>
+          <div style="font-size:11px;color:var(--text2);">${escHtml(r.distrito||'')} · ${timeAgo(r.created_at)}</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:2px;">📱 ${escHtml(r.telefono||'—')} · 🪪 ${escHtml(r.cedula||'—')}</div>
+        </div>
+        <span class="priority ${r.prioridad==='alta'?'p-high':r.prioridad==='media'?'p-med':'p-low'}" style="flex-shrink:0;margin-left:8px;">${(r.prioridad||'').toUpperCase()}</span>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <button onclick="cambiarEstado(${r.id},'activo')" style="flex:1;padding:7px;border:1px solid ${r.estado==='activo'?'var(--accent)':'var(--border)'};background:${r.estado==='activo'?'rgba(0,229,160,.1)':'var(--bg3)'};color:${r.estado==='activo'?'var(--accent)':'var(--text2)'};border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;">🔴 Activo</button>
+        <button onclick="cambiarEstado(${r.id},'en_proceso')" style="flex:1;padding:7px;border:1px solid ${r.estado==='en_proceso'?'var(--accent3)':'var(--border)'};background:${r.estado==='en_proceso'?'rgba(255,167,38,.1)':'var(--bg3)'};color:${r.estado==='en_proceso'?'var(--accent3)':'var(--text2)'};border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;">⚙️ Proceso</button>
+        <button onclick="cambiarEstado(${r.id},'resuelto')" style="flex:1;padding:7px;border:1px solid ${r.estado==='resuelto'?'var(--accent4)':'var(--border)'};background:${r.estado==='resuelto'?'rgba(68,138,255,.1)':'var(--bg3)'};color:${r.estado==='resuelto'?'var(--accent4)':'var(--text2)'};border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;">✅ Resuelto</button>
+        <button onclick="deleteReport(${r.id})" style="padding:7px 10px;border:1px solid rgba(255,82,82,.3);background:rgba(255,82,82,.08);color:var(--accent2);border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;">🗑️</button>
+      </div>
+    </div>`).join('');
+}
+
+async function cambiarEstado(id, estado) {
+  const report = allReports.find(r=>r.id===id);
+  if (!report) return;
+  if (dbOk && sb) {
+    try {
+      await sb.from('reportes').update({ estado }).eq('id', id);
+      showToast('✅ Estado actualizado');
+      await loadAllData();
+      renderAdminList();
+    } catch(e) { showToast('❌ Error al actualizar', true); }
+  } else {
+    report.estado = estado;
+    renderAdminList();
+    updateUI();
+  }
+}
+
+const screens = { home:'sc-home', alerts:'sc-alerts', map:'sc-map', report:'sc-report', stats:'sc-stats', admin:'sc-admin' };
 let currentScreen = 'home';
 function goTo(name) {
   document.getElementById(screens[currentScreen]).classList.remove('active');
@@ -947,6 +1224,7 @@ function goTo(name) {
     document.getElementById('rep-success').classList.remove('show');
     repStep(1);
   }
+  if(name==='alerts') limpiarBadge();
   window.scrollTo(0,0);
 }
 
@@ -979,6 +1257,7 @@ function timeAgo(iso) {
       .then(() => console.log('✅ Service Worker registrado'))
       .catch(e => console.error('SW error:', e));
   }
+  pedirPermisoNotificaciones();
 })();
 </script>
 </body>
