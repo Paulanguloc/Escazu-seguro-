@@ -376,7 +376,8 @@ select.input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
         <div style="font-size:11px;color:var(--text3);margin-top:3px;">JPG, PNG, MP4 · Máx 20MB</div>
       </div>
       <div class="input-group"><label class="input-label">Tu nombre (opcional)</label><input class="input" type="text" id="rep-name" placeholder="Anónimo"></div>
-      <div class="input-group"><label class="input-label">Teléfono (opcional)</label><input class="input" type="tel" id="rep-phone" placeholder="+506 8888-8888"></div>
+      <div class="input-group"><label class="input-label">Cédula <span style="color:var(--accent2)">*</span></label><input class="input" type="text" id="rep-cedula" placeholder="Ej: 1-1234-5678" required></div>
+      <div class="input-group"><label class="input-label">Teléfono <span style="color:var(--accent2)">*</span></label><input class="input" type="tel" id="rep-phone" placeholder="+506 8888-8888" required></div>
       <div class="card" style="background:rgba(0,229,160,.04);border-color:rgba(0,229,160,.15);margin-bottom:13px;">
         <p style="font-family:'Syne',sans-serif;font-size:10px;color:var(--accent);letter-spacing:1px;text-transform:uppercase;margin-bottom:9px;">Resumen del reporte</p>
         <div id="sum-cat" style="font-size:13px;margin-bottom:5px;"></div>
@@ -385,7 +386,7 @@ select.input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
       </div>
       <div class="btn-2col" style="margin-bottom:8px;">
         <button class="btn btn-ghost" onclick="repStep(2)">← Atrás</button>
-        <button class="btn btn-primary" id="submit-btn" onclick="submitReport()">🚀 Enviar</button>
+        <button class="btn btn-primary" id="submit-btn" onclick="validarYEnviar()">🚀 Enviar</button>
       </div>
       <p style="font-size:10px;color:var(--text3);text-align:center;line-height:1.5;">Al enviar confirmás que la información es verídica.</p>
     </div>
@@ -457,6 +458,7 @@ select.input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
       <div id="sh-loc" style="font-size:13px;"></div>
     </div>
     <div id="sh-desc" style="font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:14px;"></div>
+    <img id="sh-photo" style="display:none;width:100%;border-radius:10px;margin-bottom:14px;object-fit:cover;max-height:200px;" />
     <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:14px;">
       <div><div style="font-size:10px;color:var(--text3);margin-bottom:2px;">Estado</div><div id="sh-status" style="font-size:13px;font-weight:600;color:var(--accent);"></div></div>
       <div style="text-align:right;"><div style="font-size:10px;color:var(--text3);margin-bottom:2px;">Votos</div><div id="sh-votes" style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--accent);"></div></div>
@@ -699,6 +701,13 @@ function openSheet(r) {
   document.getElementById('sh-time').textContent = r.distrito + ' · ' + timeAgo(r.created_at);
   document.getElementById('sh-loc').textContent = (r.distrito||'') + (r.direccion?', '+r.direccion:'');
   document.getElementById('sh-desc').textContent = r.descripcion||'';
+  const photoEl = document.getElementById('sh-photo');
+  if (r.foto_url) {
+    photoEl.src = r.foto_url;
+    photoEl.style.display = 'block';
+  } else {
+    photoEl.style.display = 'none';
+  }
   const p = document.getElementById('sh-prio');
   p.textContent = (r.prioridad||'').toUpperCase();
   p.className = 'priority '+(prioCls[r.prioridad]||'p-low');
@@ -733,12 +742,50 @@ async function voteReportById(id) {
   }
 }
 
+function validarYEnviar() {
+  const cedula = document.getElementById('rep-cedula').value.trim();
+  const phone = document.getElementById('rep-phone').value.trim();
+
+  if (!cedula) { showToast('⚠️ La cédula es obligatoria', true); document.getElementById('rep-cedula').focus(); return; }
+  const cedulaLimpia = cedula.replace(/[-\s]/g, '');
+  const cedulaFisica = /^[1-9]\d{8}$/.test(cedulaLimpia);
+  const cedulaJuridica = /^3\d{9}$/.test(cedulaLimpia);
+  const cedulaResidente = /^[157]\d{11}$/.test(cedulaLimpia);
+  if (!cedulaFisica && !cedulaJuridica && !cedulaResidente) {
+    showToast('⚠️ Cédula inválida. Ej: 1-1234-5678', true);
+    document.getElementById('rep-cedula').focus(); return;
+  }
+
+  if (!phone) { showToast('⚠️ El teléfono es obligatorio', true); document.getElementById('rep-phone').focus(); return; }
+  const phoneLimpio = phone.replace(/[\s\-\+]/g, '');
+  if (!/^\d{8,11}$/.test(phoneLimpio)) {
+    showToast('⚠️ Teléfono inválido. Ej: 88888888', true);
+    document.getElementById('rep-phone').focus(); return;
+  }
+
+  submitReport();
+}
+
 async function submitReport() {
   const title = document.getElementById('rep-title').value.trim();
   const dist = document.getElementById('rep-dist').value;
+  const cedula = document.getElementById('rep-cedula').value.trim();
+  const phone = document.getElementById('rep-phone').value.trim();
   if (!title) { showToast('⚠️ Ingresá un título', true); return; }
   if (!dist) { showToast('⚠️ Seleccioná un distrito', true); return; }
-  const btn = document.getElementById('submit-btn');
+  if (!cedula) { showToast('⚠️ La cédula es obligatoria', true); return; }
+  const cedulaLimpia = cedula.replace(/[-\s]/g, '');
+  const cedulaFisica = /^[1-9]\d{8}$/.test(cedulaLimpia);
+  const cedulaJuridica = /^3\d{9}$/.test(cedulaLimpia);
+  const cedulaResidente = /^[157]\d{11}$/.test(cedulaLimpia);
+  if (!cedulaFisica && !cedulaJuridica && !cedulaResidente) {
+    showToast('⚠️ Cédula inválida. Ej: 1-1234-5678', true); return;
+  }
+  if (!phone) { showToast('⚠️ El teléfono es obligatorio', true); return; }
+  const phoneLimpio = phone.replace(/[\s\-\+]/g, '');
+  if (!/^\d{8,11}$/.test(phoneLimpio)) {
+    showToast('⚠️ Teléfono inválido. Ej: 88888888', true); return;
+  }  const btn = document.getElementById('submit-btn');
   btn.textContent = '⏳ Enviando...'; btn.disabled = true;
   const newReport = {
     titulo: title,
@@ -747,7 +794,9 @@ async function submitReport() {
     direccion: document.getElementById('rep-addr').value.trim(),
     nombre_reportero: document.getElementById('rep-name').value.trim() || 'Anónimo',
     telefono: document.getElementById('rep-phone').value.trim(),
+    cedula: document.getElementById('rep-cedula').value.trim(),
     estado: 'activo', votos: 0, lat: userLat, lng: userLng,
+    foto_url: uploadedPhotoUrl || null,
   };
   let ticketId;
   if (dbOk && sb) {
@@ -772,6 +821,7 @@ async function submitReport() {
   document.getElementById('rep-page').style.display = 'none';
   document.getElementById('rep-success').classList.add('show');
   btn.textContent = '🚀 Enviar'; btn.disabled = false;
+  uploadedPhotoUrl = null;
 }
 
 function selCat(btn, icon, label) {
