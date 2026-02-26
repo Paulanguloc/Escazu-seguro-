@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Escazú Seguro</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#00e5a0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="EscazúSeguro">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <script>
 const SUPABASE_URL = 'https://jhdhxedbjrtymczgtwrb.supabase.co';
@@ -969,6 +974,11 @@ function timeAgo(iso) {
   const d = new Date();
   setEl('home-date', `Zona Escazú · Activo · ${d.toLocaleDateString('es-CR',{weekday:'long',day:'numeric',month:'short'})}`);
   initSupabase();
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js')
+      .then(() => console.log('✅ Service Worker registrado'))
+      .catch(e => console.error('SW error:', e));
+  }
 })();
 </script>
 </body>
